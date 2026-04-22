@@ -77,12 +77,18 @@
         // Usamos backticks en todo el texto extraído del PDF para prevenir errores por caracteres invisibles
         const PORTFOLIO_DATA = {
           personal: {
-            name: `Yuvianni Rodríguez Veliz`,
+            name: `Yuvianni Del Carmen Rodríguez Veliz`,
             roles: [`Ingeniero Electricista`, `Especialista en Sistemas de Potencia`, `Mantenimiento Industrial`],
             summary: `Ingeniero Electricista egresada de la Universidad de Oriente, con experiencia en mantenimiento industrial, pruebas de equipos eléctricos y modernización de sistemas de protección de motores de media tensión. Destaco por mi proactividad, responsabilidad y capacidad para el trabajo en equipo. Poseo conocimientos sólidos en el uso de software especializado (ETAP) para estudios de flujo de potencia y cortocircuito, complementado con formación en control de calidad, lectura de planos y configuración de relés de protección.`,
-            phone: `+58 424 8904697 / +58 412 8632834`,
+            phone: `(0424) 8904697 / (0412) 8632834`,
             email: `yuviannirodriguez@gmail.com`,
             location: `Barcelona, Anzoátegui, VE`,
+            address: `Calle Venezuela, Sector Espejo II, Vía Alterna Barcelona`,
+            ci: `28.221.667`,
+            rif: `V-28221667-8`,
+            birth: `24-02-2000`,
+            birthplace: `Puerto La Cruz, Anzoátegui`,
+            status: `Soltera`,
             linkedin: `#`, 
             github: `#`, 
             profileImage: `Foto-perfil.jpeg` 
@@ -126,6 +132,13 @@
             videos: [], 
             tesisUrl: `#` 
           },
+          courses: [
+            { title: `Manejo de Riesgo`, entity: `Fundación Carlos Slim`, year: `2024` },
+            { title: `Control de Calidad en Obras Eléctricas`, entity: `ACCADYA GROUP`, year: `2025` },
+            { title: `Interpretación de Planos Eléctricos`, entity: `ACCADYA GROUP`, year: `2025` },
+            { title: `Planificación del Mantenimiento Industrial`, entity: `ACCADYA GROUP`, year: `2026` },
+            { title: `Configuración y pruebas de relés SEL con maleta Omicron CMC 356`, entity: `Greener S.A.`, year: `2026` }
+          ],
           education: [
             {
               id: 1,
@@ -212,7 +225,7 @@
 
         function renderPortfolio() {
             const root = document.getElementById('root');
-            const { personal, experience, projects, education, skills, proyectoGrado } = PORTFOLIO_DATA;
+            const { personal, experience, projects, education, skills, proyectoGrado, courses } = PORTFOLIO_DATA;
 
             const initials = personal.name.split(' ').map(n => n[0]).slice(0,3).join('');
             const firstName = personal.name.split(' ').slice(0,2).join(' ');
@@ -290,6 +303,15 @@
                        '<div class="flex flex-wrap gap-2">' + tagsHTML + '</div></div>';
             }).join('');
 
+            // 6. Pre-renderizar Cursos
+            const coursesHTML = courses.map(course => {
+                return '<div class="glass p-6 rounded-3xl border border-slate-800/50 hover:border-emerald-500/30 transition-all group">' +
+                       '<div class="flex justify-between items-start gap-4 mb-2">' +
+                       '<h4 class="text-slate-100 font-bold group-hover:text-emerald-400 transition-colors">' + course.title + '</h4>' +
+                       '<span class="text-xs font-black text-emerald-500/60 bg-emerald-500/5 px-2 py-1 rounded-lg border border-emerald-500/10">' + course.year + '</span>' +
+                       '</div><p class="text-xs text-slate-500 font-bold uppercase tracking-widest">' + course.entity + '</p></div>';
+            }).join('');
+
             // Asignación final limpia de sintaxis conflictiva
             root.innerHTML = `
                 <!-- NAVBAR -->
@@ -301,6 +323,7 @@
                       <a href="#proyectos" class="hover:text-emerald-400 transition-colors">Proyectos</a>
                       <a href="#educacion" class="hover:text-emerald-400 transition-colors">Educación</a>
                       <a href="#proyecto-grado" class="hover:text-emerald-400 transition-colors">Proyecto Destacado</a>
+                      <a href="#cursos" class="hover:text-emerald-400 transition-colors">Cursos</a>
                       <a href="#habilidades" class="hover:text-emerald-400 transition-colors">Habilidades</a>
                     </div>
                   </div>
@@ -329,12 +352,32 @@
                             <span class="hidden md:inline text-slate-800">|</span>
                             <a href="mailto:${personal.email}" class="hover:text-emerald-400 transition-colors text-slate-300">${personal.email}</a>
                             <span class="hidden md:inline text-slate-800">|</span>
-                            <span class="text-slate-500">${personal.location}</span>
+                            <span class="text-slate-500">${personal.address}</span>
                         </div>
 
                         <p class="text-slate-400 text-lg leading-relaxed mb-6 max-w-3xl font-medium">
                           ${personal.summary}
                         </p>
+
+                        <!-- PERSONAL INFO MINI-CARDS -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 border-t border-slate-800/50 pt-8">
+                          <div class="flex flex-col">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500/50 mb-1">Cédula</span>
+                            <span class="text-sm font-bold text-slate-300">${personal.ci}</span>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500/50 mb-1">RIF</span>
+                            <span class="text-sm font-bold text-slate-300">${personal.rif}</span>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500/50 mb-1">Nacimiento</span>
+                            <span class="text-sm font-bold text-slate-300">${personal.birth}</span>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-500/50 mb-1">Estado Civil</span>
+                            <span class="text-sm font-bold text-slate-300">${personal.status}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -398,6 +441,21 @@
                           </div>
                         </div>
                         <p class="text-slate-300 text-base leading-relaxed p-5 bg-slate-900/50 rounded-2xl border border-slate-800/50">${proyectoGrado.summary}</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- CURSOS SECTION -->
+                <section id="cursos" class="py-24 bg-slate-900/20">
+                  <div class="max-w-6xl mx-auto px-6">
+                    <div class="reveal">
+                      <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4">
+                        <span class="w-12 h-1 bg-emerald-500 rounded-full"></span>
+                        Cursos y Certificaciones
+                      </h2>
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${coursesHTML}
                       </div>
                     </div>
                   </div>
