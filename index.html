@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | Yuvianni Rodríguez</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .gallery-collapse {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-collapse.open {
+            max-height: 2000px;
+        }
+
+        .link-hover {
+            position: relative;
+        }
+        .link-hover::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: #34d399; /* emerald-400 */
+            transition: width 0.3s ease;
+        }
+        .link-hover:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-300 selection:bg-emerald-500/30">
+
+    <div id="root"></div>
+
+    <script>
+        // Usamos backticks en todo el texto extraído del PDF para prevenir errores por caracteres invisibles
+        const PORTFOLIO_DATA = {
+          personal: {
+            name: `Yuvianni Rodríguez Veliz`,
+            roles: [`Ingeniero Electricista`, `Especialista en Sistemas de Potencia`, `Mantenimiento Industrial`],
+            summary: `Ingeniero Electricista egresada de la Universidad de Oriente, con experiencia en mantenimiento industrial, pruebas de equipos eléctricos y modernización de sistemas de protección de motores de media tensión. Destaco por mi proactividad, responsabilidad y capacidad para el trabajo en equipo. Poseo conocimientos sólidos en el uso de software especializado (ETAP) para estudios de flujo de potencia y cortocircuito, complementado con formación en control de calidad, lectura de planos y configuración de relés de protección.`,
+            phone: `+58 424 8904697 / +58 412 8632834`,
+            email: `yuviannirodriguez@gmail.com`,
+            location: `Barcelona, Anzoátegui, VE`,
+            linkedin: `#`, 
+            github: `#`, 
+            profileImage: `Foto-perfil.jpeg` 
+          },
+          experience: [
+            {
+              id: 1,
+              role: `Pasante de Grado - Gerencia de Servicio Técnico`,
+              company: `PDVSA PETROCEDEÑO`,
+              location: `Subestación 2 del Mejorador`,
+              period: `Nov 2024 – May 2025`,
+              description: [
+                `Catalogación de motores eléctricos mediante revisión documental y levantamiento de datos de placa en campo, contribuyendo a la organización de información técnica de equipos.`,
+                `Apoyo en pruebas de resistencia de aislamiento y pruebas dinámicas en motores de 480 V y 6,6 kV, mediante registro de datos de prueba y reporte de resultados.`,
+                `Verificación operativa de actuadores eléctricos Rotork mediante pruebas de apertura y cierre, medición de corriente por fase y pruebas de torque-bloqueo para su liberación.`,
+                `Verificación en campo de motores eléctricos, confirmando ubicación, existencia, condiciones físicas y estado operativo de los equipos.`,
+                `Inspección en subestaciones para el registro y comprobación de relés de protección en funcionamiento, e identificación de elementos faltantes en switchgear asociados a motores de 480 V y 6,6 kV.`,
+                `Elaboración de informes de gestión mensuales con el resumen de actividades ejecutadas en el departamento.`
+              ],
+              images: null
+            }
+          ],
+          projects: [
+            {
+              id: 1,
+              title: `Modernización de Protecciones de 6.6 kV`,
+              tags: [`Protecciones Eléctricas`, `Motores 6.6kV`, `Mantenimiento`],
+              description: [
+                `Proyecto enfocado en la modernización del sistema de protección de motores de 6,6 kV en la Subestación 2 del Mejorador de PDVSA Petrocedeño.`,
+                `Inspección detallada de switchgears y comprobación de parámetros en relés de protección para asegurar la integridad operativa.`
+              ],
+              image: `https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80`,
+              link: `#` 
+            }
+          ],
+          proyectoGrado: {
+            title: `Modernización del Sistema de Protección de Motores`,
+            subtitle: `Pasantía de Grado - PDVSA Petrocedeño`,
+            summary: `Proyecto técnico ejecutado en la Subestación 2 del Mejorador, centrado en evaluar y actualizar la protección de motores de 6,6 kV. Las actividades abarcaron desde la catalogación técnica exhaustiva y pruebas de resistencia de aislamiento en campo, hasta la validación de la operatividad de actuadores Rotork y la supervisión del estado físico de los elementos del switchgear. Este proyecto garantizó la actualización de la información técnica vital para el mantenimiento correctivo y preventivo de la planta.`,
+            images: [], 
+            videos: [], 
+            tesisUrl: `#` 
+          },
+          education: [
+            {
+              id: 1,
+              degree: `Ingeniero Electricista`,
+              institution: `Universidad de Oriente, Núcleo Anzoátegui`,
+              period: `Abr 2026`,
+              details: [
+                `Proyecto de Grado: Modernización del sistema de protección de motores en PDVSA Petrocedeño.`,
+                `Enfoque Técnico: Formación sólida en sistemas de potencia, análisis de fallas e instalaciones eléctricas.`
+              ]
+            },
+            {
+              id: 2,
+              degree: `Bachiller en Ciencias`,
+              institution: `Liceo Monseñor Nicolás E. Navarro / U.E. Héctor José Reyes Barrero`,
+              period: `Educación Media`,
+              details: [
+                `Educación Básica, Media y Diversificada culminada con éxito.`
+              ]
+            }
+          ],
+          skills: {
+            software: {
+              title: `Software y Simulaciones`,
+              description: `Dominio de herramientas de simulación para el análisis de sistemas de potencia y software ofimático para la gestión y reportes técnicos.`,
+              tags: [`ETAP`, `Flujo de Potencia`, `Estudio de Cortocircuito`, `Microsoft Word`, `Excel`, `PowerPoint`]
+            },
+            hardware: {
+              title: `Equipos y Pruebas`,
+              description: `Experiencia práctica en campo con equipos de medición y configuración de dispositivos de protección eléctrica industrial.`,
+              tags: [`Pruebas de Aislamiento`, `Relés SEL`, `Maleta Omicron CMC 356`, `Actuadores Rotork`, `Motores 6.6 kV y 480 V`]
+            },
+            methodologies: {
+              title: `Gestión y Habilidades`,
+              description: `Formación especializada en gestión de mantenimiento, estándares de calidad y habilidades blandas para el entorno industrial.`,
+              tags: [`Planificación del Mantenimiento`, `Control de Calidad`, `Interpretación de Planos`, `Manejo de Riesgo`, `Trabajo en Equipo`]
+            }
+          }
+        };
+
+        function toggleGallery(galleryId, buttonTextId) {
+            const gallery = document.getElementById(galleryId);
+            const btn = document.getElementById(buttonTextId);
+            if (gallery.classList.contains('open')) {
+                gallery.classList.remove('open');
+                btn.innerText = 'Ver Galería de Fotos';
+            } else {
+                gallery.classList.add('open');
+                btn.innerText = 'Cerrar Galería';
+            }
+        }
+
+        function toggleVideoGallery(galleryId, buttonTextId) {
+            const gallery = document.getElementById(galleryId);
+            const btn = document.getElementById(buttonTextId);
+            if (gallery.classList.contains('open')) {
+                gallery.classList.remove('open');
+                btn.innerText = 'Ver Videos';
+                gallery.querySelectorAll('video').forEach(v => v.pause());
+            } else {
+                gallery.classList.add('open');
+                btn.innerText = 'Cerrar Videos';
+            }
+        }
+
+        function openTesis(url) {
+            if(url === "#") return; 
+            const modal = document.getElementById('tesis-modal');
+            const iframe = document.getElementById('tesis-iframe');
+            iframe.src = url;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTesis() {
+            const modal = document.getElementById('tesis-modal');
+            const iframe = document.getElementById('tesis-iframe');
+            iframe.src = '';
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function renderPortfolio() {
+            const root = document.getElementById('root');
+            const { personal, experience, projects, education, skills, proyectoGrado } = PORTFOLIO_DATA;
+
+            const initials = personal.name.split(' ').map(n => n[0]).slice(0,3).join('');
+            const firstName = personal.name.split(' ').slice(0,2).join(' ');
+            const phoneClean = personal.phone.split(' / ')[0].replace(/ /g, '');
+
+            // 1. Pre-renderizar Roles
+            const rolesHTML = personal.roles.map((role, idx) => {
+                const separator = idx > 0 ? '<span class="mx-2 text-slate-700">|</span>' : '';
+                return '<span>' + separator + role + '</span>';
+            }).join('');
+
+            // 2. Pre-renderizar Experiencia
+            const experienceHTML = experience.map(exp => {
+                const descHTML = exp.description.map(item => {
+                    return '<li class="flex gap-4 items-start"><span class="mt-1.5 w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0"></span><span class="text-[15px] leading-relaxed">' + item + '</span></li>';
+                }).join('');
+
+                return '<div class="relative">' +
+                       '<div class="absolute -left-[41px] md:-left-[57px] top-2 flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 border-2 border-slate-800 text-emerald-400 shadow-xl group-hover:border-emerald-400 transition-colors">' +
+                       '<i data-lucide="briefcase" class="w-5 h-5"></i></div>' +
+                       '<div class="glass p-8 rounded-[2rem] group transition-all">' +
+                       '<div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">' +
+                       '<div><h3 class="text-2xl font-bold text-white mb-2">' + exp.role + '</h3><p class="text-emerald-400 font-semibold text-sm uppercase tracking-wider">' + exp.company + ' | ' + exp.location + '</p></div>' +
+                       '<span class="px-4 py-1.5 bg-slate-800/50 rounded-full text-xs font-black text-emerald-500/80 border border-slate-700 h-max whitespace-nowrap">' + exp.period + '</span>' +
+                       '</div><ul class="space-y-4 text-slate-400 font-medium font-inter">' + descHTML + '</ul></div></div>';
+            }).join('');
+
+            // 3. Pre-renderizar Proyectos
+            const projectsHTML = projects.map(project => {
+                const tagsHTML = project.tags.map(tag => {
+                    return '<span class="text-[10px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-full border border-emerald-500/10">' + tag + '</span>';
+                }).join('');
+                
+                const descHTML = project.description.map(desc => {
+                    return '<li class="flex gap-3 items-start"><span class="text-emerald-500">•</span>' + desc + '</li>';
+                }).join('');
+
+                return '<div class="glass rounded-[2.5rem] overflow-hidden group">' +
+                       '<div class="h-64 overflow-hidden relative bg-slate-800">' +
+                       '<img src="' + project.image + '" alt="' + project.title + '" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" onerror="this.src=\'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80\'" />' +
+                       '</div><div class="p-10"><div class="flex flex-wrap gap-2 mb-6">' + tagsHTML + '</div>' +
+                       '<h3 class="text-2xl font-bold text-white mb-6">' + project.title + '</h3>' +
+                       '<ul class="space-y-3 text-sm text-slate-400 font-medium mb-8">' + descHTML + '</ul></div></div>';
+            }).join('');
+
+            // 4. Pre-renderizar Educación
+            const educationHTML = education.map(edu => {
+                const detailsHTML = edu.details.map(detail => {
+                    const splitIndex = detail.indexOf(":");
+                    if (splitIndex !== -1) {
+                        const title = detail.substring(0, splitIndex + 1);
+                        const text = detail.substring(splitIndex + 1);
+                        return '<div class="p-5 bg-slate-900/50 rounded-2xl border border-slate-800/50"><strong class="text-emerald-400 block mb-2 uppercase text-[11px] tracking-[0.2em]">' + title + '</strong><p class="text-slate-300 text-sm leading-relaxed font-medium">' + text + '</p></div>';
+                    }
+                    return '<p class="text-slate-300 text-sm p-5 bg-slate-900/50 rounded-2xl border border-slate-800/50 font-medium">' + detail + '</p>';
+                }).join('');
+
+                return '<div class="glass p-10 rounded-[2.5rem] relative overflow-hidden mb-6">' +
+                       '<div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-bl-[10rem] -z-10 translate-x-32 -translate-y-32"></div>' +
+                       '<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">' +
+                       '<div><h3 class="text-3xl font-extrabold text-white leading-tight mb-2">' + edu.degree + '</h3><p class="text-lg text-emerald-400 font-semibold">' + edu.institution + '</p></div>' +
+                       '<span class="px-6 py-2 bg-slate-900 rounded-2xl text-slate-100 font-bold text-sm border border-slate-800 whitespace-nowrap">' + edu.period + '</span>' +
+                       '</div><div class="space-y-6">' + detailsHTML + '</div></div>';
+            }).join('');
+
+            // 5. Pre-renderizar Habilidades
+            const skillsHTML = Object.entries(skills).map(([key, skill]) => {
+                const icon = key === 'software' ? 'monitor' : key === 'hardware' ? 'zap' : 'users';
+                const tagsHTML = skill.tags.map(tag => '<span class="px-3 py-1.5 bg-slate-900/80 text-slate-300 rounded-xl text-xs font-bold border border-slate-800 hover:border-emerald-500/40 transition-colors">' + tag + '</span>').join('');
+
+                return '<div class="glass p-8 rounded-[2rem] flex flex-col hover:scale-[1.02] transition-transform">' +
+                       '<div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 border border-emerald-500/20">' +
+                       '<i data-lucide="' + icon + '" class="w-6 h-6"></i></div><h3 class="text-xl font-bold text-white">' + skill.title + '</h3></div>' +
+                       '<p class="text-sm text-slate-400 mb-8 font-medium leading-relaxed flex-grow">' + skill.description + '</p>' +
+                       '<div class="flex flex-wrap gap-2">' + tagsHTML + '</div></div>';
+            }).join('');
+
+            // Asignación final limpia de sintaxis conflictiva
+            root.innerHTML = `
+                <!-- NAVBAR -->
+                <nav class="fixed top-0 w-full glass z-50 border-b border-slate-800/50">
+                  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+                    <div class="font-black text-xl text-emerald-400 tracking-tighter">${initials}<span class="text-slate-100">.cv</span></div>
+                    <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-400">
+                      <a href="#experiencia" class="hover:text-emerald-400 transition-colors">Experiencia</a>
+                      <a href="#proyectos" class="hover:text-emerald-400 transition-colors">Proyectos</a>
+                      <a href="#educacion" class="hover:text-emerald-400 transition-colors">Educación</a>
+                      <a href="#proyecto-grado" class="hover:text-emerald-400 transition-colors">Proyecto Destacado</a>
+                      <a href="#habilidades" class="hover:text-emerald-400 transition-colors">Habilidades</a>
+                    </div>
+                  </div>
+                </nav>
+
+                <!-- HERO SECTION -->
+                <section class="relative pt-32 pb-20 px-6 max-w-6xl mx-auto min-h-[80vh] flex flex-col justify-center">
+                  <div class="reveal">
+                    <div class="flex flex-col md:flex-row items-center gap-12">
+                      <div class="w-56 h-56 md:w-64 md:h-64 rounded-[2.5rem] overflow-hidden border-2 border-emerald-500/20 shadow-2xl flex-shrink-0 relative group bg-slate-800">
+                        <img src="${personal.profileImage}" alt="${personal.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent"></div>
+                      </div>
+                      
+                      <div class="text-center md:text-left flex-1">
+                        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+                          ${firstName}
+                        </h1>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-start mb-6 text-emerald-400 font-bold text-sm md:text-base">
+                          ${rolesHTML}
+                        </div>
+                        
+                        <!-- CLASSIC CONTACT BAR -->
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-y-2 gap-x-4 mb-8 text-[13px] font-bold text-slate-400 border-l-0 md:border-l-2 border-emerald-500/30 md:pl-6">
+                            <a href="tel:${phoneClean}" class="hover:text-emerald-400 transition-colors text-slate-300">${personal.phone}</a>
+                            <span class="hidden md:inline text-slate-800">|</span>
+                            <a href="mailto:${personal.email}" class="hover:text-emerald-400 transition-colors text-slate-300">${personal.email}</a>
+                            <span class="hidden md:inline text-slate-800">|</span>
+                            <span class="text-slate-500">${personal.location}</span>
+                        </div>
+
+                        <p class="text-slate-400 text-lg leading-relaxed mb-6 max-w-3xl font-medium">
+                          ${personal.summary}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- EXPERIENCIA SECTION -->
+                <section id="experiencia" class="py-24 bg-slate-900/40 border-y border-slate-900/50">
+                  <div class="max-w-4xl mx-auto px-6">
+                    <div class="reveal">
+                      <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4 group">
+                        <span class="w-12 h-1 bg-emerald-500 rounded-full"></span> 
+                        Experiencia Laboral
+                      </h2>
+                      <div class="relative ml-4 md:ml-6 pl-8 md:pl-12 border-l-2 border-slate-800 space-y-16">
+                        ${experienceHTML}
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- PROYECTOS SECTION -->
+                <section id="proyectos" class="py-24 max-w-6xl mx-auto px-6 lg:px-8">
+                  <div class="reveal">
+                    <h2 class="text-3xl font-bold text-white mb-16 flex items-center justify-end gap-4 text-right">
+                      Proyectos Destacados
+                      <span class="w-12 h-1 bg-emerald-500 rounded-full"></span>
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      ${projectsHTML}
+                    </div>
+                  </div>
+                </section>
+
+                <!-- EDUCACIÓN SECTION -->
+                <section id="educacion" class="py-24 bg-slate-950 border-t border-slate-900">
+                  <div class="max-w-5xl mx-auto px-6">
+                    <div class="reveal">
+                        <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4">
+                           <span class="w-12 h-1 bg-emerald-500 rounded-full"></span> 
+                           Formación Académica
+                        </h2>
+                        ${educationHTML}
+                    </div>
+                  </div>
+                </section>
+
+                <!-- PROYECTO DE GRADO SECTION -->
+                <section id="proyecto-grado" class="py-24 bg-slate-950 border-t border-slate-900">
+                  <div class="max-w-5xl mx-auto px-6">
+                    <div class="reveal">
+                      <h2 class="text-3xl font-bold text-white mb-16 flex items-center gap-4">
+                        <span class="w-12 h-1 bg-emerald-500 rounded-full"></span>
+                        Proyecto Destacado
+                      </h2>
+                      <div class="glass p-10 rounded-[2.5rem] relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-bl-[10rem] -z-10 translate-x-32 -translate-y-32"></div>
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+                          <div class="flex-1">
+                            <h3 class="text-2xl font-extrabold text-white leading-tight mb-2">${proyectoGrado.title}</h3>
+                            <p class="text-emerald-400 font-semibold text-sm uppercase tracking-wider">${proyectoGrado.subtitle}</p>
+                          </div>
+                        </div>
+                        <p class="text-slate-300 text-base leading-relaxed p-5 bg-slate-900/50 rounded-2xl border border-slate-800/50">${proyectoGrado.summary}</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- HABILIDADES SECTION -->
+                <section id="habilidades" class="py-24 max-w-6xl mx-auto px-6 lg:px-8">
+                  <div class="reveal">
+                    <h2 class="text-3xl font-bold text-white mb-16 flex items-center justify-center gap-4">
+                        Competencias Profesionales
+                        <span class="w-12 h-1 bg-emerald-500 rounded-full"></span>
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      ${skillsHTML}
+                    </div>
+                  </div>
+                </section>
+
+                <!-- FOOTER -->
+                <footer class="py-20 text-center border-t border-slate-900 bg-slate-950">
+                  <div class="font-black text-2xl text-emerald-400 mb-4 tracking-tighter">${initials}<span class="text-slate-100 italic">.cv</span></div>
+                  <p class="text-slate-500 text-sm font-medium">
+                    &copy; ${new Date().getFullYear()} ${personal.name}
+                  </p>
+                </footer>
+            `;
+
+            lucide.createIcons();
+            setupScrollAnimations();
+        }
+
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        document.addEventListener('DOMContentLoaded', renderPortfolio);
+    </script>
+</body>
+</html>
